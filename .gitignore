@@ -1,0 +1,15 @@
+.DS_Store
+.env
+_minted-report01
+
+
+Report/_minted-report
+Report/texput.log
+Report/report01.aux
+Report/report01.fdb_latexmk
+Report/report01.fls
+Report/report01.log
+Report/report01.out
+Report/report01.synctex.gz
+texput.log
+mqttvenv/

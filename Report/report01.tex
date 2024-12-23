@@ -1,0 +1,161 @@
+\documentclass[11pt,a4paper]{report}
+
+% Character encoding and font packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% Mathematics packages
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{pifont}
+\newtheorem{montheoreme}{Théoréme}[chapter]
+\newtheorem{mapreuve}{Preuve}[section]
+
+% Page layout and headers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+% Color and graphics packages
+\usepackage[table]{xcolor}
+\usepackage{graphicx}
+\usepackage{pstricks,pst-node}
+\usepackage{pgf,tikz}
+\usetikzlibrary{arrows}
+
+% Code listings and formatting
+\usepackage{listings}
+\usepackage{xcolor}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\lstset{
+  language=Python,
+  basicstyle=\ttfamily\small,
+  commentstyle=\color{mygreen},
+  keywordstyle=\color{blue},
+  numberstyle=\tiny\color{mygray},
+  numbers=left,
+  numbersep=5pt,
+  stringstyle=\color{mymauve},
+  breaklines=true,
+  frame=single,
+  showstringspaces=false,
+  backgroundcolor=\color{white}
+}
+
+% Table and array packages
+\usepackage{array}
+\newcolumntype{C}{>{\centering\arraybackslash}p{1.5cm}}
+\usepackage{tabularx}
+\usepackage{booktabs} % for better horizontal lines
+
+% Bibliography and referencing
+\usepackage[nottoc,numbib]{tocbibind}
+
+% Other packages
+\usepackage{tcolorbox}
+\usepackage{fullpage} % Adjust page margins
+\usepackage{minted} % For code highlighting
+\usepackage{newunicodechar} % For Unicode characters
+\newunicodechar{✓}{\ding{51}}
+\newunicodechar{✗}{\ding{55}}
+\usepackage{acronym} % For managing acronyms
+\usepackage{hyperref} % For hyperlinks
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black, % Set the color of internal links
+    urlcolor=black, % Set the color of URLs
+    pdfborder={0 0 0}, % Set border style for PDF links (0 0 0 for no border)
+}
+\usepackage{xurl} % For breaking long URLs
+\usepackage{lipsum} % For generating placeholder text
+
+% Adjust the space at the top of the page
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\@makechapterhead}{\vspace*{50\p@}}{}{}{}
+\makeatother
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    
+	
+
+\begin{minipage}{3cm}
+	\begin{center}
+		\includegraphics[height=1cm]{LOGO_Universite__libre_bruxelles.png}
+	\end{center}
+\end{minipage}\hfill
+\begin{minipage}{8cm}
+    \begin{center}
+	
+    
+	{\small Université Libre de Bruxelles \\ [0.3cm]}
+	\end{center}
+\end{minipage}\hfill
+\begin{minipage}{3cm}
+	\begin{center}
+		\includegraphics[height=1cm]{LOGO_Universite__libre_bruxelles.png}
+	\end{center}
+\end{minipage}\hfill\\
+\vspace{10mm}
+
+
+{\large \bfseries{Subject : Wireless Security} \\ }
+\begin{center}
+   
+\end{center}
+\vspace{5mm}
+% Title
+\rule{\linewidth}{0.3mm} \\[0.4cm]
+{ \huge \bfseries Lab report 01}
+\rule{\linewidth}{0.3mm} \\[1cm]
+{\large \bfseries{MASTER 2 CYBERUS} \\ }
+\vspace{10mm}
+
+
+% Author and supervisor
+\noindent
+\begin{flushleft}
+\begin{minipage}{0.5\textwidth}
+    \vspace{-3mm}
+    \begin{flushleft} \large
+        \textbf{Accomplished by:} \\[3mm]
+        \begin{itemize}
+            \item \textsc Ali-Khodja, Myriam
+            \item \textsc Bouta, Ali
+            \item \textsc Hassani, Mortaza
+            \item \textsc Amanor, Deborah
+        \end{itemize}
+    \end{flushleft}
+\end{minipage}
+\end{flushleft}
+
+\begin{minipage}{0.4\textwidth}
+  \begin{flushright} \large
+    \begin{flushleft} \large
+    \emph{} \\
+        
+
+    \end{flushleft}
+
+  \end{flushright}
+\end{minipage}\\[1cm]
+
+{\large \textit{Assignment requested by the professors  : }}\\[0.5cm]
+
+\centering
+\begin{tabular}{ll}
+\large \textsc{Prof. Dricot and Pr.  }
+\end{tabular}
+
+\vspace{20mm}
+
+% Bottom of the page
+{\large School Year 2024-2025}
+
+\end{titlepage}
+\end{document}

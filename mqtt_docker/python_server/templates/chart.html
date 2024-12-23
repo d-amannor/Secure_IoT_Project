@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SmartHome IoT Sensor Data Dashboard</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.1/dist/chartjs-adapter-moment.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        main {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+	p {
+	    font-weight: bold;
+	}
+        .chart-container {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 600px;
+            transition: 500ms;
+        }
+
+        .chart-container h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+            text-align: center;
+            color: #333;
+        }
+        .chart-container:hover {
+            cursor: pointer;
+            transform: translate(10px, -10px);
+            box-shadow: 0 15px 17px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>SmartHome IoT Sensor Data Dashboard</h1>
+        <p>Monitoring Temperature and Humidity</p>
+    </header>
+    <main>
+        <!-- ESP32 Device 1 -->
+        <div class="chart-container">
+            <h3>Bedroom - Temperature & Humidity</h3>
+            <canvas id="chart1"></canvas>
+        </div>
+
+        <!-- ESP32 Device 2 -->
+        <div class="chart-container">
+            <h3>Hall - Temperature & Humidity</h3>
+            <canvas id="chart2"></canvas>
+        </div>
+    </main>
+    
+    // Replace the script section with this updated version
+<script>
+        // Initialize charts
+        let chart1, chart2;
+
+        // Create chart configuration
+        function createChartConfig() {
+            return {
+                type: 'line',
+                data: {
+                    datasets: [
+                        {
+                            label: 'Temperature (°C)',
+                            yAxisID: 'y1',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            borderWidth: 2,
+                            fill: false
+                        },
+                        {
+                            label: 'Humidity (%)',
+                            yAxisID: 'y2',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderWidth: 2,
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Sensor Data'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'second',
+                                displayFormats: {
+                                    second: 'HH:mm:ss'
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Time'
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Temperature (°C)'
+                            }
+                        },
+                        y2: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Humidity (%)'
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        }
+                    }
+                }
+            };
+        }
+
+        // Initialize charts when the page loads
+        window.onload = function() {
+            const ctx1 = document.getElementById('chart1').getContext('2d');
+            const ctx2 = document.getElementById('chart2').getContext('2d');
+            
+            chart1 = new Chart(ctx1, createChartConfig());
+            chart2 = new Chart(ctx2, createChartConfig());
+            
+            // Start fetching data
+            fetchData();
+            setInterval(fetchData, 1000); // Update every second
+        };
+
+        // Fetch and update data
+        async function fetchData() {
+            try {
+                const response = await fetch('/data');
+                const data = await response.json();
+                
+                updateChart(chart1, data.device_1);
+                updateChart(chart2, data.device_2);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        // Update chart with new data
+        function updateChart(chart, deviceData) {
+            if (!deviceData || !deviceData.length) return;
+
+            const temperatures = [];
+            const humidity = [];
+
+            deviceData.forEach(reading => {
+                if (reading && reading.length === 4) {
+                    const [timestamp, hum, temp, heat] = reading;
+                    temperatures.push({
+                        x: new Date(timestamp),
+                        y: temp
+                    });
+                    humidity.push({
+                        x: new Date(timestamp),
+                        y: hum
+                    });
+                }
+            });
+
+            chart.data.datasets[0].data = temperatures;
+            chart.data.datasets[1].data = humidity;
+            chart.update('none'); // Update without animation for better performance
+        }
+    </script>
+</body>
+</html>
